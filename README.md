@@ -1,4 +1,4 @@
-rCharts_extra
+rChartsExtra
 =============
 
 This will be an `R` package to curate and aggregate custom and alpha libraries that bind with [rCharts](http://rcharts.io).
