@@ -5,8 +5,7 @@ framework   : minimal
 highlighter : prettify
 hitheme     : twitter-bootstrap
 mode        : selfcontained
-github      : {user: rcharts, repo: howitworks, branch: gh-pages}
-widgets     : [disqus, ganalytics]
+github      : {user: timelyportfolio, repo: rCharts_extra, branch: gh-pages}
 assets:
   css: 
     - "http://fonts.googleapis.com/css?family=PT+Sans"
@@ -38,7 +37,7 @@ The basic idea of the rCharts function integrating this library is to accept two
 
 ### Inputs
 
-The [question file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv) consists of three columns, representing `type` of question, the `text` content of the question and semicolon separated `choices`. The [response file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/responses.csv) is exported from Google Forms.
+The [question file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv) consists of three columns, representing `type` of question, the `text` content of the question and semicolon separated `choices`. The [response file](https://timelyportfolio.github.io/rCharts_extra/catcorrjs/data/responses.csv) is exported from Google Forms.
 
 
 ### Visualization
@@ -46,34 +45,49 @@ The [question file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrj
 The `catCorrPlot` function reads the two csv files with questions and responses, processes the data to create a json payload that is accepted by the [CatCorrJS](http://deanmalmgren.github.io/catcorrjs/) library, and finally uses the `rCharts` base class to produce an interactive visualization.
 
 
-    catCorrPlot <- function(questions_doc, responses_doc){
-      require(rCharts)
-      responses = read.csv(responses_doc)
-      responses = toJSONArray(setNames(
-         responses[,-1], 1:(NCOL(responses) - 1)
-      ), json = F)
-      
-      questions = read.csv(questions_doc, stringsAsFactors = F)
-      questions = lapply(1:NROW(questions), function(i){
-        qi = as.list(questions[i,])
-        qi$choices = strsplit(qi$choices, ";")[[1]]
-        qi$number = i
-        qi
-      })
-      questions = toJSONArray(questions, json = F)
-      
-      r1 <- rCharts$new()
-      r1$setLib('http://rcharts.github.io/howitworks/catcorrjs/catcorrjs')
-      r1$set(questions = questions, responses = responses)
-      r1
-    }
-    
+```r
+catCorrPlot <- function(questions_doc, responses_doc){
+  require(rCharts)
+  responses = read.csv(responses_doc)
+  responses = toJSONArray(setNames(
+     responses[,-1], 1:(NCOL(responses) - 1)
+  ), json = F)
+  
+  questions = read.csv(questions_doc, stringsAsFactors = F)
+  questions = lapply(1:NROW(questions), function(i){
+    qi = as.list(questions[i,])
+    qi$choices = strsplit(qi$choices, ";")[[1]]
+    qi$number = i
+    qi
+  })
+  questions = toJSONArray(questions, json = F)
+  
+  r1 <- rCharts$new()
+  r1$setLib('http://timelyportfolio.github.io/rCharts_extra/catcorrjs')
+  r1$set(questions = questions, responses = responses)
+  r1
+}
+```
 
 
 We can now use this function to create an interactive visualization of the survey
 
 
-    r1 <- catCorrPlot("data/questions.csv", "data/responses.csv")
+```r
+r1 <- catCorrPlot("data/questions.csv", "data/responses.csv")
+```
+
+```
+## Loading required package: rCharts
+```
+
+```
+## Warning: cannot open: HTTP status was '404 Not Found'
+```
+
+```
+## Error: cannot open the connection
+```
 
 
 <iframe src='./catCorrPlot.html' seamless></iframe>
@@ -88,8 +102,6 @@ As an extension, I am working on a prototype, that would simplify workflow consi
 All the heavy-lifting in creating this visualization is the work of [Dean Malmgren](http://about.me/dean.malmgren) and his awesome [CatCorrJS](http://deanmalmgren.github.io/catcorrjs/). [rCharts](http://rcharts.io) merely provides a wrapper to integrate this library into an #rstats workflow.
 
 
-
-<div id='disqus_thread'></div>
 
 <style>
 iframe {

@@ -44,7 +44,7 @@ The [question file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrj
 
 The `catCorrPlot` function reads the two csv files with questions and responses, processes the data to create a json payload that is accepted by the [CatCorrJS](http://deanmalmgren.github.io/catcorrjs/) library, and finally uses the `rCharts` base class to produce an interactive visualization.
 
-```{r tidy = F, eval = F}
+```{r tidy = F, eval = T}
 catCorrPlot <- function(questions_doc, responses_doc){
   require(rCharts)
   responses = read.csv(responses_doc)

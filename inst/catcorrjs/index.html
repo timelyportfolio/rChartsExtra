@@ -27,20 +27,20 @@
   <!-- <img width='150px' src='assets/img/'></img>
   -->
   <p class="view">
-    <!-- <a href="http://github.com/rcharts/howitworks">
-     View the Project on GitHub <small>rcharts/howitworks</small>
+    <!-- <a href="http://github.com/timelyportfolio/rCharts_extra">
+     View the Project on GitHub <small>timelyportfolio/rCharts_extra</small>
     </a>
     <img width='150px' src='assets/img/'></img>
     -->
   </p>
   <ul class='buttons'>
-    <li><a href="https://github.com/rcharts/howitworks/zipball/gh-pages">
+    <li><a href="https://github.com/timelyportfolio/rCharts_extra/zipball/gh-pages">
       Download <strong>ZIP File</strong>
     </a></li>
-    <li><a href="https://github.com/rcharts/howitworks/tarball/gh-pages">
+    <li><a href="https://github.com/timelyportfolio/rCharts_extra/tarball/gh-pages">
       Download <strong>TAR Ball</strong>
     </a></li>
-    <li><a href="http://github.com/rcharts/howitworks">
+    <li><a href="http://github.com/timelyportfolio/rCharts_extra">
       Fork On <strong>GitHub</strong></a>
     </li>
   </ul>
@@ -76,13 +76,13 @@
 
 <h3>Inputs</h3>
 
-<p>The <a href="https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv">question file</a> consists of three columns, representing <code>type</code> of question, the <code>text</code> content of the question and semicolon separated <code>choices</code>. The <a href="https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/responses.csv">response file</a> is exported from Google Forms.</p>
+<p>The <a href="https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv">question file</a> consists of three columns, representing <code>type</code> of question, the <code>text</code> content of the question and semicolon separated <code>choices</code>. The <a href="https://timelyportfolio.github.io/rCharts_extra/catcorrjs/data/responses.csv">response file</a> is exported from Google Forms.</p>
 
 <h3>Visualization</h3>
 
 <p>The <code>catCorrPlot</code> function reads the two csv files with questions and responses, processes the data to create a json payload that is accepted by the <a href="http://deanmalmgren.github.io/catcorrjs/">CatCorrJS</a> library, and finally uses the <code>rCharts</code> base class to produce an interactive visualization.</p>
 
-<pre><code>catCorrPlot &lt;- function(questions_doc, responses_doc){
+<pre><code class="r">catCorrPlot &lt;- function(questions_doc, responses_doc){
   require(rCharts)
   responses = read.csv(responses_doc)
   responses = toJSONArray(setNames(
@@ -99,7 +99,7 @@
   questions = toJSONArray(questions, json = F)
 
   r1 &lt;- rCharts$new()
-  r1$setLib(&#39;http://rcharts.github.io/howitworks/catcorrjs/catcorrjs&#39;)
+  r1$setLib(&#39;http://timelyportfolio.github.io/rCharts_extra/catcorrjs&#39;)
   r1$set(questions = questions, responses = responses)
   r1
 }
@@ -107,7 +107,16 @@
 
 <p>We can now use this function to create an interactive visualization of the survey</p>
 
-<pre><code>r1 &lt;- catCorrPlot(&quot;data/questions.csv&quot;, &quot;data/responses.csv&quot;)
+<pre><code class="r">r1 &lt;- catCorrPlot(&quot;data/questions.csv&quot;, &quot;data/responses.csv&quot;)
+</code></pre>
+
+<pre><code>## Loading required package: rCharts
+</code></pre>
+
+<pre><code>## Warning: cannot open: HTTP status was &#39;404 Not Found&#39;
+</code></pre>
+
+<pre><code>## Error: cannot open the connection
 </code></pre>
 
 <iframe src='./catCorrPlot.html' seamless></iframe>
@@ -120,8 +129,6 @@
 
 <p>All the heavy-lifting in creating this visualization is the work of <a href="http://about.me/dean.malmgren">Dean Malmgren</a> and his awesome <a href="http://deanmalmgren.github.io/catcorrjs/">CatCorrJS</a>. <a href="http://rcharts.io">rCharts</a> merely provides a wrapper to integrate this library into an #rstats workflow.</p>
 
-<div id='disqus_thread'></div>
-
 <style>
 iframe {
   height: 1300px;
@@ -130,7 +137,7 @@ iframe {
 
       </section>
       <footer>
-        <p>Maintained by <a href="http://github.com/rcharts">
+        <p>Maintained by <a href="http://github.com/timelyportfolio">
           Ramnath Vaidyanathan
         </a></p>
         <p><small>Hosted on GitHub Pages &mdash; Theme by 
@@ -141,29 +148,6 @@ iframe {
   </body>
   <!-- Load Javascripts for Widgets -->
   
-  <script type="text/javascript">
-    var disqus_shortname = 'rcharts';
-    (function() {
-      var dsq = document.createElement('script'); 
-      dsq.type = 'text/javascript'; 
-      dsq.async = true;
-      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-    })();
-  </script>
-  <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-  <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
-  
-  <script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-  
-    ga('create', 'UA-36046354-2', 'rcharts.io');
-    ga('send', 'pageview');
-  
-  </script>
   <!-- Google Prettify -->
   <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
   <script src='../libraries/highlighters/prettify/js/lang-r.js'></script>
