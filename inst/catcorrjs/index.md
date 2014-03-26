@@ -81,14 +81,6 @@ r1 <- catCorrPlot("data/questions.csv", "data/responses.csv")
 ## Loading required package: rCharts
 ```
 
-```
-## Warning: cannot open: HTTP status was '404 Not Found'
-```
-
-```
-## Error: cannot open the connection
-```
-
 
 <iframe src='./catCorrPlot.html' seamless></iframe>
 
