@@ -5,7 +5,7 @@ framework   : minimal
 highlighter : prettify
 hitheme     : twitter-bootstrap
 mode        : selfcontained
-github      : {user: timelyportfolio, repo: rCharts_extra, branch: gh-pages}
+github      : {user: timelyportfolio, repo: rChartsExtra, branch: gh-pages}
 assets:
   css: 
     - "http://fonts.googleapis.com/css?family=PT+Sans"
@@ -37,7 +37,7 @@ The basic idea of the rCharts function integrating this library is to accept two
 
 ### Inputs
 
-The [question file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv) consists of three columns, representing `type` of question, the `text` content of the question and semicolon separated `choices`. The [response file](https://timelyportfolio.github.io/rCharts_extra/catcorrjs/data/responses.csv) is exported from Google Forms.
+The [question file](https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv) consists of three columns, representing `type` of question, the `text` content of the question and semicolon separated `choices`. The [response file](https://timelyportfolio.github.io/rChartsExtra/catcorrjs/data/responses.csv) is exported from Google Forms.
 
 
 ### Visualization
@@ -62,7 +62,7 @@ catCorrPlot <- function(questions_doc, responses_doc){
   questions = toJSONArray(questions, json = F)
   
   r1 <- rCharts$new()
-  r1$setLib('http://timelyportfolio.github.io/rCharts_extra/catcorrjs')
+  r1$setLib('http://timelyportfolio.github.io/rChartsExtra/catcorrjs')
   r1$set(questions = questions, responses = responses)
   r1
 }

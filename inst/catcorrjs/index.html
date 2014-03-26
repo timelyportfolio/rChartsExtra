@@ -37,10 +37,10 @@
     <li><a href="https://github.com/timelyportfolio/rCharts_extra/zipball/gh-pages">
       Download <strong>ZIP File</strong>
     </a></li>
-    <li><a href="https://github.com/timelyportfolio/rCharts_extra/tarball/gh-pages">
+    <li><a href="https://github.com/timelyportfolio/rChartsExtra/tarball/gh-pages">
       Download <strong>TAR Ball</strong>
     </a></li>
-    <li><a href="http://github.com/timelyportfolio/rCharts_extra">
+    <li><a href="http://github.com/timelyportfolio/rChartsExtra">
       Fork On <strong>GitHub</strong></a>
     </li>
   </ul>
@@ -76,7 +76,7 @@
 
 <h3>Inputs</h3>
 
-<p>The <a href="https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv">question file</a> consists of three columns, representing <code>type</code> of question, the <code>text</code> content of the question and semicolon separated <code>choices</code>. The <a href="https://timelyportfolio.github.io/rCharts_extra/catcorrjs/data/responses.csv">response file</a> is exported from Google Forms.</p>
+<p>The <a href="https://github.com/rcharts/howitworks/blob/gh-pages/catcorrjs/data/questions.csv">question file</a> consists of three columns, representing <code>type</code> of question, the <code>text</code> content of the question and semicolon separated <code>choices</code>. The <a href="https://timelyportfolio.github.io/rChartsExtra/catcorrjs/data/responses.csv">response file</a> is exported from Google Forms.</p>
 
 <h3>Visualization</h3>
 
@@ -99,7 +99,7 @@
   questions = toJSONArray(questions, json = F)
 
   r1 &lt;- rCharts$new()
-  r1$setLib(&#39;http://timelyportfolio.github.io/rCharts_extra/catcorrjs&#39;)
+  r1$setLib(&#39;http://timelyportfolio.github.io/rChartsExtra/catcorrjs&#39;)
   r1$set(questions = questions, responses = responses)
   r1
 }
