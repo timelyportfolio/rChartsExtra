@@ -8,7 +8,7 @@
     <link rel='stylesheet' href="http://aozora.github.io/bootplus/assets/css/docs.css">
     
     <script src='http://d3js.org/d3.v3.min.js' type='text/javascript'></script>
-    <script src='http://timelyportfolio.github.io/rCharts_d3_horizon/libraries/widgets/d3_horizon/js/horizon.js' type='text/javascript'></script>
+    <script src='http://timelyportfolio.github.io/rChartsExtra/d3_horizon/js/horizon.js' type='text/javascript'></script>
     
     <style>
     .rChart {
@@ -35,8 +35,8 @@
 <pre><code class='r'>require(rCharts)
 
 rChart &lt;- rCharts$new()
-rChart$setLib('http://timelyportfolio.github.io/rCharts_d3_horizon/libraries/widgets/d3_horizon')
-rChart$setTemplate(script = 'libraries/widgets/d3_horizon/layouts/d3_horizon_smallmultiple.html')
+rChart$setLib('http://timelyportfolio.github.io/rChartsExtra/d3_horizon')
+rChart$setTemplate(script = 'http://timelyportfolio.github.io/rChartsExtra/d3_horizon/layouts/d3_horizon_smallmultiple.html')
 
 rChart$set(
   bands = 3,
