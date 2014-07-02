@@ -14,7 +14,7 @@ assets:
 url: {lib: ../libraries}
 ---
 
-## d3Pie with rCharts
+## d3Pie + rCharts
 
 <!-- AddThis Smart Layers BEGIN -->
 <!-- Go to http://www.addthis.com/get/smart-layers to customize -->
@@ -32,19 +32,29 @@ url: {lib: ../libraries}
 
 ```{r echo = F, warning =F, message=F, cache=FALSE}
 knitr::opts_chunk$set(warning=F, error=F, message=F, fig.width = 10, fig.height = 6, results='asis', cache = F, tidy = F)
+
+require(rCharts)
+#turn off Rstudio viewer so each example can be seen
+#doesn't really matter in Rmd that will be slidified
+options(viewer = NULL) 
 ```
 
-```{r}
-require(rCharts)
-options(viewer = NULL) #turn off Rstudio viewer so each example can be seen
-```
+The design and visualization world generally dislikes pie charts.  However, there still exists a real demand for pie charts.  Not that I would ever use a pie chart, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful that it tempts me to violate my self-imposed ban on pie charts.
+
+### Get an rChart to House Our Delicious Pies
+
+Eventually I would like to build a R `refClass` for [`d3pie`](http://d3pie.org), but for now I wanted to show how we could use [`d3pie`](http://d3pie.org) in R with [`rCharts`](http://rcharts.io).  Most of this should be considered experimental as I work through how best to support the [numerous options and features](http://d3pie.org/#docs) of [`d3pie`](http://d3pie.org).
 
 ```{r}
 dPie <- rCharts$new()
 dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
 #do once to add assets with slidify
-add_lib_assets(dPie$lib,cdn=T)
+cat(add_lib_assets(dPie$lib,cdn=T))
 ```
+
+### Fill Our Pie
+
+One easy way to fill our pie is to recreate the [d3pie example](http://d3pie.org/#generator-start) and even get the exact JSON from the example with `fromJSON`.  This will most likely not be the way a R user would populate the options and data of a d3pie, but seeing this method might help us better understand the rCharts binding.
 
 ```{r}
 #copied from the d3pie example
@@ -111,20 +121,40 @@ dPie$addParams(chartspec = rjson::fromJSON('{
 ))
 ```
 
+### Violate a Design Principle of rCharts
+
+**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  Just look at one, and you will probably quickly understand why Ramnath avoids them.
+
 ```{r}
-#to see how we would send a configuration in R without toJSON
-#which is the most likely use case
-#right now a big hairy nested list
-#which violates Ramnath's rCharts design principles which avoids of nested list
-#but requires no extra code or refClasses
-str(dPie$params$chartspec)
+cat(
+  paste0(
+    capture.output(
+      Hmisc:::list.tree(
+        dPie$params$chartspec
+        ,maxlen=40
+      )
+    )
+    ,separator="<br>"
+  )
+)
+
 #as a simple example let's change the header title
 dPie$params$chartspec$header$title = list(
   text = "d3Pie Example Recreated in R with rCharts",
   fontsize = 20,
   font = "open sans"
 )
-str(dPie$params$chartspec$header$title)
+cat(
+  paste0(
+    capture.output(
+      Hmisc:::list.tree(
+        dPie$params$chartspec$header$title
+        ,maxlen=40
+      )
+    )
+    ,separator="<br>"
+  )
+)
 ```
 
 ```{r}
@@ -283,7 +313,7 @@ data <- do.call(
 )
 ```
 
-```{r}
+```{r "example1"}
 #now that we have data as a data.frame which a R user should know well
 #show how to specify a data.frame as our data.source
 dPie$addParams(chartspec = list(
@@ -292,10 +322,11 @@ dPie$addParams(chartspec = list(
     content = data
   )
 ))
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
-```{r}
+```{r "example2"}
 #now show how d3Pie responds if no color
 #hard to tell but the colors are different
 dPie$params$chartspec$data <- list(
@@ -303,22 +334,25 @@ dPie$params$chartspec$data <- list(
     content = data[,-3]
 )
 
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
-```{r}
+```{r "example3"}
 #now change so that the color is calculated in R
 #?topo.colors
 dPie$params$chartspec$data$content <- data.frame(
     data[order(data$value,decreasing=T),-3],  #data minus the color column
     color = substr(topo.colors(nrow(data)),0,7) #our new colors using R topo.colors
 )
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
-```{r}
+```{r "example4"}
 #sort from d3pie is slightly different so let R sort
 #since values for smalltalk = node = php
 dPie$params$chartspec$data$sortOrder <- NULL
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```

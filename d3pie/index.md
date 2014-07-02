@@ -14,7 +14,7 @@ assets:
 url: {lib: ../libraries}
 ---
 
-## d3Pie with rCharts
+## d3Pie + rCharts
 
 <!-- AddThis Smart Layers BEGIN -->
 <!-- Go to http://www.addthis.com/get/smart-layers to customize -->
@@ -32,21 +32,27 @@ url: {lib: ../libraries}
 
 
 
+The design and visualization world generally dislikes pie charts.  However, there still exists a real demand for pie charts.  Not that I would ever use a pie chart, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful that it tempts me to violate my self-imposed ban on pie charts.
 
-```r
-require(rCharts)
-options(viewer = NULL) #turn off Rstudio viewer so each example can be seen
-```
+### Get an rChart to House Our Delicious Pies
+
+Eventually I would like to build a R `refClass` for [`d3pie`](http://d3pie.org), but for now I wanted to show how we could use [`d3pie`](http://d3pie.org) in R with [`rCharts`](http://rcharts.io).  Most of this should be considered experimental as I work through how best to support the [numerous options and features](http://d3pie.org/#docs) of [`d3pie`](http://d3pie.org).
 
 
 ```r
 dPie <- rCharts$new()
 dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
 #do once to add assets with slidify
-add_lib_assets(dPie$lib,cdn=T)
+cat(add_lib_assets(dPie$lib,cdn=T))
 ```
 
-[1] "<script type='text/javascript' src=http://code.jquery.com/jquery-2.1.1.min.js></script>\n<script type='text/javascript' src=http://d3js.org/d3.v3.min.js></script>\n<script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>"
+<script type='text/javascript' src=http://code.jquery.com/jquery-2.1.1.min.js></script>
+<script type='text/javascript' src=http://d3js.org/d3.v3.min.js></script>
+<script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>
+
+### Fill Our Pie
+
+One easy way to fill our pie is to recreate the [d3pie example](http://d3pie.org/#generator-start) and even get the exact JSON from the example with `fromJSON`.  This will most likely not be the way a R user would populate the options and data of a d3pie, but seeing this method might help us better understand the rCharts binding.
 
 
 ```r
@@ -114,59 +120,26 @@ dPie$addParams(chartspec = rjson::fromJSON('{
 ))
 ```
 
+### Violate a Design Principle of rCharts
+
+**Please note that these examples uses a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  Just look at one, and you will probably quickly understand why Ramnath avoids them.
+
 
 ```r
-#to see how we would send a configuration in R without toJSON
-#which is the most likely use case
-#right now a big hairy nested list
-#which violates Ramnath's rCharts design principles which avoids of nested list
-#but requires no extra code or refClasses
-str(dPie$params$chartspec)
+cat(
+  paste0(
+    capture.output(
+      Hmisc:::list.tree(
+        dPie$params$chartspec
+        ,maxlen=40
+      )
+    )
+    ,separator="<br>"
+  )
+)
 ```
 
-List of 6
- $ header :List of 3
-  ..$ title               :List of 3
-  .. ..$ text    : chr "Lots of Programming Languages"
-  .. ..$ fontSize: num 24
-  .. ..$ font    : chr "open sans"
-  ..$ subtitle            :List of 4
-  .. ..$ text    : chr "A full pie chart to show off label collision detection and resolution."
-  .. ..$ color   : chr "#999999"
-  .. ..$ fontSize: num 12
-  .. ..$ font    : chr "open sans"
-  ..$ titleSubtitlePadding: num 9
- $ footer :List of 4
-  ..$ color   : chr "#999999"
-  ..$ fontSize: num 10
-  ..$ font    : chr "open sans"
-  ..$ location: chr "bottom-left"
- $ size   :List of 1
-  ..$ canvasWidth: num 590
- $ labels :List of 6
-  ..$ outer     :List of 1
-  .. ..$ pieDistance: num 32
-  ..$ inner     :List of 1
-  .. ..$ hideWhenLessThanPercentage: num 3
-  ..$ mainLabel :List of 1
-  .. ..$ fontSize: num 11
-  ..$ percentage:List of 2
-  .. ..$ color        : chr "#ffffff"
-  .. ..$ decimalPlaces: num 0
-  ..$ value     :List of 2
-  .. ..$ color   : chr "#adadad"
-  .. ..$ fontSize: num 11
-  ..$ lines     :List of 1
-  .. ..$ enabled: logi TRUE
- $ effects:List of 1
-  ..$ pullOutSegmentOnClick:List of 3
-  .. ..$ effect: chr "linear"
-  .. ..$ speed : num 400
-  .. ..$ size  : num 8
- $ misc   :List of 1
-  ..$ gradient:List of 2
-  .. ..$ enabled   : logi TRUE
-  .. ..$ percentage: num 100
+ dPie$params$chartspec = list 6 (8136 bytes)<br> .  header = list 3<br> . .  title = list 3<br> . . .  text = character 1= Lots of Programming Languages <br> . . .  fontSize = double 1= 24<br> . . .  font = character 1= open sans <br> . .  subtitle = list 4<br> . . .  text = character 1= A full pie chart to show off label colli <br> . . .  color = character 1= #999999 <br> . . .  fontSize = double 1= 12<br> . . .  font = character 1= open sans <br> . .  titleSubtitlePadding = double 1= 9<br> .  footer = list 4<br> . .  color = character 1= #999999 <br> . .  fontSize = double 1= 10<br> . .  font = character 1= open sans <br> . .  location = character 1= bottom-left <br> .  size = list 1<br> . .  canvasWidth = double 1= 590<br> .  labels = list 6<br> . .  outer = list 1<br> . . .  pieDistance = double 1= 32<br> . .  inner = list 1<br> . . .  hideWhenLessThanPercentage = double 1= 3<br> . .  mainLabel = list 1<br> . . .  fontSize = double 1= 11<br> . .  percentage = list 2<br> . . .  color = character 1= #ffffff <br> . . .  decimalPlaces = double 1= 0<br> . .  value = list 2<br> . . .  color = character 1= #adadad <br> . . .  fontSize = double 1= 11<br> . .  lines = list 1<br> . . .  enabled = logical 1= TRUE<br> .  effects = list 1<br> . .  pullOutSegmentOnClick = list 3<br> . . .  effect = character 1= linear <br> . . .  speed = double 1= 400<br> . . .  size = double 1= 8<br> .  misc = list 1<br> . .  gradient = list 2<br> . . .  enabled = logical 1= TRUE<br> . . .  percentage = double 1= 100<br>
 
 ```r
 #as a simple example let's change the header title
@@ -175,13 +148,20 @@ dPie$params$chartspec$header$title = list(
   fontsize = 20,
   font = "open sans"
 )
-str(dPie$params$chartspec$header$title)
+cat(
+  paste0(
+    capture.output(
+      Hmisc:::list.tree(
+        dPie$params$chartspec$header$title
+        ,maxlen=40
+      )
+    )
+    ,separator="<br>"
+  )
+)
 ```
 
-List of 3
- $ text    : chr "d3Pie Example Recreated in R with rCharts"
- $ fontsize: num 20
- $ font    : chr "open sans"
+ dPie$params$chartspec$header$title = list 3 (696 bytes)<br> .  text = character 1= d3Pie Example Recreated in R with rChart <br> .  fontsize = double 1= 20<br> .  font = character 1= open sans <br>
 
 
 ```r
@@ -350,15 +330,16 @@ dPie$addParams(chartspec = list(
     content = data
   )
 ))
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
 
-<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
+<div id = 'example1' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec6566577f(){ 
+function drawexample1(){ 
   var params = {
- "dom": "chart22ec6566577f",
+ "dom": "example1",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -429,7 +410,7 @@ function drawchart22ec6566577f(){
 } 
 } 
 },
-"id": "chart22ec6566577f" 
+"id": "example1" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -451,11 +432,11 @@ function drawchart22ec6566577f(){
   
   params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
   
-  var pie = new d3pie("#" + params.id, params.chartspec);
+  var pie = new d3pie("#" + params.dom, params.chartspec);
   return pie;
 };
 
-var chart22ec6566577f = drawchart22ec6566577f();
+var example1 = drawexample1();
 </script>
 
 
@@ -467,15 +448,16 @@ dPie$params$chartspec$data <- list(
     content = data[,-3]
 )
 
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
 
-<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
+<div id = 'example2' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec6566577f(){ 
+function drawexample2(){ 
   var params = {
- "dom": "chart22ec6566577f",
+ "dom": "example2",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -545,7 +527,7 @@ function drawchart22ec6566577f(){
 } 
 } 
 },
-"id": "chart22ec6566577f" 
+"id": "example2" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -567,11 +549,11 @@ function drawchart22ec6566577f(){
   
   params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
   
-  var pie = new d3pie("#" + params.id, params.chartspec);
+  var pie = new d3pie("#" + params.dom, params.chartspec);
   return pie;
 };
 
-var chart22ec6566577f = drawchart22ec6566577f();
+var example2 = drawexample2();
 </script>
 
 
@@ -582,15 +564,16 @@ dPie$params$chartspec$data$content <- data.frame(
     data[order(data$value,decreasing=T),-3],  #data minus the color column
     color = substr(topo.colors(nrow(data)),0,7) #our new colors using R topo.colors
 )
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
 
-<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
+<div id = 'example3' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec6566577f(){ 
+function drawexample3(){ 
   var params = {
- "dom": "chart22ec6566577f",
+ "dom": "example3",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -661,7 +644,7 @@ function drawchart22ec6566577f(){
 } 
 } 
 },
-"id": "chart22ec6566577f" 
+"id": "example3" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -683,11 +666,11 @@ function drawchart22ec6566577f(){
   
   params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
   
-  var pie = new d3pie("#" + params.id, params.chartspec);
+  var pie = new d3pie("#" + params.dom, params.chartspec);
   return pie;
 };
 
-var chart22ec6566577f = drawchart22ec6566577f();
+var example3 = drawexample3();
 </script>
 
 
@@ -695,15 +678,16 @@ var chart22ec6566577f = drawchart22ec6566577f();
 #sort from d3pie is slightly different so let R sort
 #since values for smalltalk = node = php
 dPie$params$chartspec$data$sortOrder <- NULL
-dPie$show("inline")
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
 ```
 
 
-<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
+<div id = 'example4' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec6566577f(){ 
+function drawexample4(){ 
   var params = {
- "dom": "chart22ec6566577f",
+ "dom": "example4",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -773,7 +757,7 @@ function drawchart22ec6566577f(){
 } 
 } 
 },
-"id": "chart22ec6566577f" 
+"id": "example4" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -795,9 +779,9 @@ function drawchart22ec6566577f(){
   
   params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
   
-  var pie = new d3pie("#" + params.id, params.chartspec);
+  var pie = new d3pie("#" + params.dom, params.chartspec);
   return pie;
 };
 
-var chart22ec6566577f = drawchart22ec6566577f();
+var example4 = drawexample4();
 </script>
