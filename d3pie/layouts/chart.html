@@ -1,5 +1,24 @@
 <script>
 var params = {{{ chartParams }}};
 
-var pie = new d3pie("#" + params.id, params.params);
+//rCharts defaults to send toJSON as columns
+//instead of the expected records for d3pie
+//do the transform the hard way for now
+function columnsToRecords(data){
+  var tempdata;
+  //avoid lodash for now
+  datakeys = Object.keys(data)
+  tempdata = data[datakeys[1]].map(function(d,i){
+    var tempobj = {}
+    datakeys.forEach(function(key){
+      tempobj[key] = data[key][i]
+    })
+    return tempobj
+  })
+  return tempdata;
+}
+
+params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
+
+var pie = new d3pie("#" + params.id, params.chartspec);
 </script>
