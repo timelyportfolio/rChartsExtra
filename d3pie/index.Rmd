@@ -137,7 +137,13 @@ cat(
     ,separator="<br>"
   )
 )
+```
 
+### Change the Title
+
+One of the nice features of d3pie is the ability to provide a title and subtitle in the chart spec.  To highlight this feature and also prove that we are just working with R `lists`, let's change the title.
+
+```{r}
 #as a simple example let's change the header title
 dPie$params$chartspec$header$title = list(
   text = "d3Pie Example Recreated in R with rCharts",

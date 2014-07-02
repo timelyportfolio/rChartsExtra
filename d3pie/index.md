@@ -141,6 +141,11 @@ cat(
 
  dPie$params$chartspec = list 6 (8136 bytes)<br> .  header = list 3<br> . .  title = list 3<br> . . .  text = character 1= Lots of Programming Languages <br> . . .  fontSize = double 1= 24<br> . . .  font = character 1= open sans <br> . .  subtitle = list 4<br> . . .  text = character 1= A full pie chart to show off label colli <br> . . .  color = character 1= #999999 <br> . . .  fontSize = double 1= 12<br> . . .  font = character 1= open sans <br> . .  titleSubtitlePadding = double 1= 9<br> .  footer = list 4<br> . .  color = character 1= #999999 <br> . .  fontSize = double 1= 10<br> . .  font = character 1= open sans <br> . .  location = character 1= bottom-left <br> .  size = list 1<br> . .  canvasWidth = double 1= 590<br> .  labels = list 6<br> . .  outer = list 1<br> . . .  pieDistance = double 1= 32<br> . .  inner = list 1<br> . . .  hideWhenLessThanPercentage = double 1= 3<br> . .  mainLabel = list 1<br> . . .  fontSize = double 1= 11<br> . .  percentage = list 2<br> . . .  color = character 1= #ffffff <br> . . .  decimalPlaces = double 1= 0<br> . .  value = list 2<br> . . .  color = character 1= #adadad <br> . . .  fontSize = double 1= 11<br> . .  lines = list 1<br> . . .  enabled = logical 1= TRUE<br> .  effects = list 1<br> . .  pullOutSegmentOnClick = list 3<br> . . .  effect = character 1= linear <br> . . .  speed = double 1= 400<br> . . .  size = double 1= 8<br> .  misc = list 1<br> . .  gradient = list 2<br> . . .  enabled = logical 1= TRUE<br> . . .  percentage = double 1= 100<br>
 
+### Change the Title
+
+One of the nice features of d3pie is the ability to provide a title and subtitle in the chart spec.  To highlight this feature and also prove that we are just working with R `lists`, let's change the title.
+
+
 ```r
 #as a simple example let's change the header title
 dPie$params$chartspec$header$title = list(
