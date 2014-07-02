@@ -46,7 +46,7 @@ dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
 add_lib_assets(dPie$lib,cdn=T)
 ```
 
-[1] "<script type='text/javascript' src=http://code.jquery.com/jquery-2.1.1.min.js></script>\n<script type='text/javascript' src=http://d3js.org/d3.min.js></script>\n<script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>"
+[1] "<script type='text/javascript' src=http://code.jquery.com/jquery-2.1.1.min.js></script>\n<script type='text/javascript' src=http://d3js.org/d3.v3.min.js></script>\n<script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>"
 
 
 ```r
@@ -354,11 +354,11 @@ dPie$show("inline")
 ```
 
 
-<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec3cb656e0(){ 
+function drawchart22ec6566577f(){ 
   var params = {
- "dom": "chart22ec3cb656e0",
+ "dom": "chart22ec6566577f",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -429,7 +429,7 @@ function drawchart22ec3cb656e0(){
 } 
 } 
 },
-"id": "chart22ec3cb656e0" 
+"id": "chart22ec6566577f" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -455,7 +455,7 @@ function drawchart22ec3cb656e0(){
   return pie;
 };
 
-var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+var chart22ec6566577f = drawchart22ec6566577f();
 </script>
 
 
@@ -471,11 +471,11 @@ dPie$show("inline")
 ```
 
 
-<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec3cb656e0(){ 
+function drawchart22ec6566577f(){ 
   var params = {
- "dom": "chart22ec3cb656e0",
+ "dom": "chart22ec6566577f",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -545,7 +545,7 @@ function drawchart22ec3cb656e0(){
 } 
 } 
 },
-"id": "chart22ec3cb656e0" 
+"id": "chart22ec6566577f" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -571,7 +571,7 @@ function drawchart22ec3cb656e0(){
   return pie;
 };
 
-var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+var chart22ec6566577f = drawchart22ec6566577f();
 </script>
 
 
@@ -586,11 +586,11 @@ dPie$show("inline")
 ```
 
 
-<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec3cb656e0(){ 
+function drawchart22ec6566577f(){ 
   var params = {
- "dom": "chart22ec3cb656e0",
+ "dom": "chart22ec6566577f",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -661,7 +661,7 @@ function drawchart22ec3cb656e0(){
 } 
 } 
 },
-"id": "chart22ec3cb656e0" 
+"id": "chart22ec6566577f" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -687,7 +687,7 @@ function drawchart22ec3cb656e0(){
   return pie;
 };
 
-var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+var chart22ec6566577f = drawchart22ec6566577f();
 </script>
 
 
@@ -699,11 +699,11 @@ dPie$show("inline")
 ```
 
 
-<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+<div id = 'chart22ec6566577f' class = 'rChart d3pie'></div>
 <script>
-function drawchart22ec3cb656e0(){ 
+function drawchart22ec6566577f(){ 
   var params = {
- "dom": "chart22ec3cb656e0",
+ "dom": "chart22ec6566577f",
 "width":    800,
 "height":    400,
 "chartspec": {
@@ -773,7 +773,7 @@ function drawchart22ec3cb656e0(){
 } 
 } 
 },
-"id": "chart22ec3cb656e0" 
+"id": "chart22ec6566577f" 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -799,5 +799,5 @@ function drawchart22ec3cb656e0(){
   return pie;
 };
 
-var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+var chart22ec6566577f = drawchart22ec6566577f();
 </script>

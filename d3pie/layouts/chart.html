@@ -21,7 +21,7 @@ function draw{{ chartId }}(){
   
   params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
   
-  var pie = new d3pie("#" + params.id, params.chartspec);
+  var pie = new d3pie("#" + params.dom, params.chartspec);
   return pie;
 };
 
