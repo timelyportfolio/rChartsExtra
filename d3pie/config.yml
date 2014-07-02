@@ -1,6 +1,6 @@
 d3pie:
   jshead:
-    - ./js/jquery.js
+    - ./js/jquery.min.js
     - ./js/d3.js
     - ./js/d3pie.js
   cdn:

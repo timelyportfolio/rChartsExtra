@@ -1,6 +1,45 @@
+---
+title       : rCharts and d3pie
+author      : TimelyPortfolio
+framework   : minimal
+highlighter : prettify
+hitheme     : twitter-bootstrap
+mode        : selfcontained
+github      : {user: timelyportfolio, repo: rChartsExtra, branch: gh-pages}
+assets:
+  css: 
+    - "http://fonts.googleapis.com/css?family=PT+Sans"
+    - "../assets/css/app.css"
+    - "../assets/css/gh-buttons.css"
+url: {lib: ../libraries}
+---
+
+## d3Pie with rCharts
+
+<!-- AddThis Smart Layers BEGIN -->
+<!-- Go to http://www.addthis.com/get/smart-layers to customize -->
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fdfcfd4773d48d3"></script>
+<script type="text/javascript">
+  addthis.layers({
+    'theme' : 'transparent',
+    'share' : {
+      'position' : 'left',
+      'numPreferredServices' : 5
+    }   
+  });
+</script>
+<!-- AddThis Smart Layers END -->
+
+```{r echo = F, warning =F, message=F, cache=FALSE}
+knitr::opts_chunk$set(warning=F, error=F, message=F, fig.width = 10, fig.height = 6, results='asis', cache = F, tidy = F)
+```
+
+```{r}
 require(rCharts)
 options(viewer = NULL) #turn off Rstudio viewer so each example can be seen
+```
 
+```{r}
 dPie <- rCharts$new()
 dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
 #copied from the d3pie example
@@ -66,11 +105,13 @@ dPie$addParams(chartspec = rjson::fromJSON('{
 }
 }'
 ))
+```
 
+```{r}
 #to see how we would send a configuration in R without toJSON
 #which is the most likely use case
 #right now a big hairy nested list
-#which violates Ramnath's rCharts avoidance of nested list
+#which violates Ramnath's rCharts design principles which avoids of nested list
 #but requires no extra code or refClasses
 str(dPie$params$chartspec)
 #as a simple example let's change the header title
@@ -80,7 +121,9 @@ dPie$params$chartspec$header$title = list(
   font = "open sans"
 )
 str(dPie$params$chartspec$header$title)
+```
 
+```{r}
 #make the data content list a data.frame and try it out
 #data.frame will be the most likely data source
 #use rCharts to_json to convert data.frame into expected d3pie format
@@ -234,7 +277,9 @@ data <- do.call(
     data.frame
   )
 )
+```
 
+```{r}
 #now that we have data as a data.frame which a R user should know well
 #show how to specify a data.frame as our data.source
 dPie$addParams(chartspec = list(
@@ -243,8 +288,10 @@ dPie$addParams(chartspec = list(
     content = data
   )
 ))
-dPie
+dPie$show("inline")
+```
 
+```{r}
 #now show how d3Pie responds if no color
 #hard to tell but the colors are different
 dPie$params$chartspec$data <- list(
@@ -252,18 +299,22 @@ dPie$params$chartspec$data <- list(
     content = data[,-3]
   )
 )
-dPie
+dPie$show("inline")
+```
 
+```{r}
 #now change so that the color is calculated in R
 #?topo.colors
 dPie$params$chartspec$data$content <- data.frame(
     data[order(data$value,decreasing=T),-3],  #data minus the color column
     color = substr(topo.colors(nrow(data)),0,7) #our new colors using R topo.colors
 )
-dPie
+dPie$show("inline")
+```
 
+```{r}
 #sort from d3pie is slightly different so let R sort
 #since values for smalltalk = node = php
 dPie$params$chartspec$data$sortOrder <- NULL
-dPie
-
+dPie$show("inline")
+```
