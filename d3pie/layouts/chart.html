@@ -23,5 +23,7 @@ function draw{{ chartId }}(){
   
   var pie = new d3pie("#" + params.id, params.chartspec);
   return pie;
-}();
+};
+
+var {{ chartId }} = draw{{ chartId }}();
 </script>
