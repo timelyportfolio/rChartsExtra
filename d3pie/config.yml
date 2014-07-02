@@ -6,5 +6,5 @@ d3pie:
   cdn:
     jshead:
     - http://code.jquery.com/jquery-2.1.1.min.js
-    - http://d3js.org/d3.min.js
+    - http://d3js.org/d3.v3.min.js
     - http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js

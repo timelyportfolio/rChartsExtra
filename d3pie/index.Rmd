@@ -42,8 +42,12 @@ options(viewer = NULL) #turn off Rstudio viewer so each example can be seen
 ```{r}
 dPie <- rCharts$new()
 dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
-#copied from the d3pie example
+#do once to add assets with slidify
+add_lib_assets(dPie$lib,cdn=T)
+```
 
+```{r}
+#copied from the d3pie example
 dPie$addParams(chartspec = rjson::fromJSON('{  
 "header": {
   "title": {
@@ -297,8 +301,8 @@ dPie$show("inline")
 dPie$params$chartspec$data <- list(
     sortOrder = "value-desc",
     content = data[,-3]
-  )
 )
+
 dPie$show("inline")
 ```
 

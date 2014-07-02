@@ -1,0 +1,848 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>rCharts and d3pie</title>
+    <link rel="stylesheet" href="../libraries/frameworks/minimal/stylesheets/styles.css">
+    <link rel="stylesheet" href="../libraries/highlighters/prettify/css/twitter-bootstrap.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+        <link rel=stylesheet href="http://fonts.googleapis.com/css?family=PT+Sans"></link>
+<link rel=stylesheet href="../assets/css/app.css"></link>
+<link rel=stylesheet href="../assets/css/gh-buttons.css"></link>
+
+    
+  </head>
+  <body>
+    <div class="wrapper">
+<header>
+  <h1>
+    <img src="http://ramnathv.github.io/rCharts/libraries/frameworks/minimal/images/rCharts.png">
+  </h1>
+  <p></p>
+  
+  <!-- <img width='150px' src='assets/img/'></img>
+  -->
+  <p class="view">
+    <!-- <a href="http://github.com/timelyportfolio/rChartsExtra">
+     View the Project on GitHub <small>timelyportfolio/rChartsExtra</small>
+    </a>
+    <img width='150px' src='assets/img/'></img>
+    -->
+  </p>
+  <ul class='buttons'>
+    <li><a href="https://github.com/timelyportfolio/rChartsExtra/zipball/gh-pages">
+      Download <strong>ZIP File</strong>
+    </a></li>
+    <li><a href="https://github.com/timelyportfolio/rChartsExtra/tarball/gh-pages">
+      Download <strong>TAR Ball</strong>
+    </a></li>
+    <li><a href="http://github.com/timelyportfolio/rChartsExtra">
+      Fork On <strong>GitHub</strong></a>
+    </li>
+  </ul>
+    <ol>
+    </ol>
+  <p><a href='http://rcharts.io'>rCharts</a> is an R package, that helps create, customize and share interactive javascript visualizations from R, using a familiar lattice-like interface. You can install it from <a href='http://ramnathv.github.io/rCharts'>github</a>
+  </p>
+</header>
+
+      <section>
+        <h2>d3Pie with rCharts</h2>
+<!-- AddThis Smart Layers BEGIN -->
+
+<!-- Go to http://www.addthis.com/get/smart-layers to customize -->
+
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-4fdfcfd4773d48d3"></script>
+
+<script type="text/javascript">
+  addthis.layers({
+    'theme' : 'transparent',
+    'share' : {
+      'position' : 'left',
+      'numPreferredServices' : 5
+    }   
+  });
+</script>
+
+<!-- AddThis Smart Layers END -->
+
+<pre><code class="r">require(rCharts)
+options(viewer = NULL) #turn off Rstudio viewer so each example can be seen
+</code></pre>
+
+<pre><code class="r">dPie &lt;- rCharts$new()
+dPie$setLib(&quot;http://timelyportfolio.github.io/rChartsExtra/d3pie&quot;)
+#do once to add assets with slidify
+add_lib_assets(dPie$lib,cdn=T)
+</code></pre>
+
+<p>[1] &quot;<script type='text/javascript' src=http://code.jquery.com/jquery-2.1.1.min.js></script>\n<script type='text/javascript' src=http://d3js.org/d3.min.js></script>\n<script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>&quot;</p>
+
+<pre><code class="r">#copied from the d3pie example
+dPie$addParams(chartspec = rjson::fromJSON(&#39;{  
+&quot;header&quot;: {
+  &quot;title&quot;: {
+    &quot;text&quot;: &quot;Lots of Programming Languages&quot;,
+    &quot;fontSize&quot;: 24,
+    &quot;font&quot;: &quot;open sans&quot;
+  },
+  &quot;subtitle&quot;: {
+    &quot;text&quot;: &quot;A full pie chart to show off label collision detection and resolution.&quot;,
+    &quot;color&quot;: &quot;#999999&quot;,
+    &quot;fontSize&quot;: 12,
+    &quot;font&quot;: &quot;open sans&quot;
+  },
+  &quot;titleSubtitlePadding&quot;: 9
+},
+&quot;footer&quot;: {
+  &quot;color&quot;: &quot;#999999&quot;,
+  &quot;fontSize&quot;: 10,
+  &quot;font&quot;: &quot;open sans&quot;,
+  &quot;location&quot;: &quot;bottom-left&quot;
+},
+&quot;size&quot;: {
+  &quot;canvasWidth&quot;: 590
+},
+&quot;labels&quot;: {
+  &quot;outer&quot;: {
+    &quot;pieDistance&quot;: 32
+  },
+  &quot;inner&quot;: {
+    &quot;hideWhenLessThanPercentage&quot;: 3
+  },
+  &quot;mainLabel&quot;: {
+    &quot;fontSize&quot;: 11
+  },
+  &quot;percentage&quot;: {
+    &quot;color&quot;: &quot;#ffffff&quot;,
+    &quot;decimalPlaces&quot;: 0
+  },
+  &quot;value&quot;: {
+    &quot;color&quot;: &quot;#adadad&quot;,
+    &quot;fontSize&quot;: 11
+  },
+  &quot;lines&quot;: {
+    &quot;enabled&quot;: true
+  }
+},
+&quot;effects&quot;: {
+  &quot;pullOutSegmentOnClick&quot;: {
+    &quot;effect&quot;: &quot;linear&quot;,
+    &quot;speed&quot;: 400,
+    &quot;size&quot;: 8
+  }
+},
+&quot;misc&quot;: {
+  &quot;gradient&quot;: {
+    &quot;enabled&quot;: true,
+    &quot;percentage&quot;: 100
+  }
+}
+}&#39;
+))
+</code></pre>
+
+<pre><code class="r">#to see how we would send a configuration in R without toJSON
+#which is the most likely use case
+#right now a big hairy nested list
+#which violates Ramnath&#39;s rCharts design principles which avoids of nested list
+#but requires no extra code or refClasses
+str(dPie$params$chartspec)
+</code></pre>
+
+<p>List of 6
+ $ header :List of 3
+  ..$ title               :List of 3
+  .. ..$ text    : chr &quot;Lots of Programming Languages&quot;
+  .. ..$ fontSize: num 24
+  .. ..$ font    : chr &quot;open sans&quot;
+  ..$ subtitle            :List of 4
+  .. ..$ text    : chr &quot;A full pie chart to show off label collision detection and resolution.&quot;
+  .. ..$ color   : chr &quot;#999999&quot;
+  .. ..$ fontSize: num 12
+  .. ..$ font    : chr &quot;open sans&quot;
+  ..$ titleSubtitlePadding: num 9
+ $ footer :List of 4
+  ..$ color   : chr &quot;#999999&quot;
+  ..$ fontSize: num 10
+  ..$ font    : chr &quot;open sans&quot;
+  ..$ location: chr &quot;bottom-left&quot;
+ $ size   :List of 1
+  ..$ canvasWidth: num 590
+ $ labels :List of 6
+  ..$ outer     :List of 1
+  .. ..$ pieDistance: num 32
+  ..$ inner     :List of 1
+  .. ..$ hideWhenLessThanPercentage: num 3
+  ..$ mainLabel :List of 1
+  .. ..$ fontSize: num 11
+  ..$ percentage:List of 2
+  .. ..$ color        : chr &quot;#ffffff&quot;
+  .. ..$ decimalPlaces: num 0
+  ..$ value     :List of 2
+  .. ..$ color   : chr &quot;#adadad&quot;
+  .. ..$ fontSize: num 11
+  ..$ lines     :List of 1
+  .. ..$ enabled: logi TRUE
+ $ effects:List of 1
+  ..$ pullOutSegmentOnClick:List of 3
+  .. ..$ effect: chr &quot;linear&quot;
+  .. ..$ speed : num 400
+  .. ..$ size  : num 8
+ $ misc   :List of 1
+  ..$ gradient:List of 2
+  .. ..$ enabled   : logi TRUE
+  .. ..$ percentage: num 100</p>
+
+<pre><code class="r">#as a simple example let&#39;s change the header title
+dPie$params$chartspec$header$title = list(
+  text = &quot;d3Pie Example Recreated in R with rCharts&quot;,
+  fontsize = 20,
+  font = &quot;open sans&quot;
+)
+str(dPie$params$chartspec$header$title)
+</code></pre>
+
+<p>List of 3
+ $ text    : chr &quot;d3Pie Example Recreated in R with rCharts&quot;
+ $ fontsize: num 20
+ $ font    : chr &quot;open sans&quot;</p>
+
+<pre><code class="r">#make the data content list a data.frame and try it out
+#data.frame will be the most likely data source
+#use rCharts to_json to convert data.frame into expected d3pie format
+#if desired and probable in future, build a refClass for d3pie
+#to_json(dPie$params$chartspec$data$content,orient=&quot;records&quot;)
+data &lt;- do.call(
+  rbind,
+  lapply(
+    rjson::fromJSON(&#39;[
+{
+  &quot;label&quot;: &quot;JavaScript&quot;,
+  &quot;value&quot;: 264131,
+  &quot;color&quot;: &quot;#2484c1&quot;
+},
+{
+  &quot;label&quot;: &quot;Ruby&quot;,
+  &quot;value&quot;: 218812,
+  &quot;color&quot;: &quot;#0c6197&quot;
+},
+{
+  &quot;label&quot;: &quot;Java&quot;,
+  &quot;value&quot;: 157618,
+  &quot;color&quot;: &quot;#4daa4b&quot;
+},
+{
+  &quot;label&quot;: &quot;PHP&quot;,
+  &quot;value&quot;: 114384,
+  &quot;color&quot;: &quot;#90c469&quot;
+},
+{
+  &quot;label&quot;: &quot;Python&quot;,
+  &quot;value&quot;: 95002,
+  &quot;color&quot;: &quot;#daca61&quot;
+},
+{
+  &quot;label&quot;: &quot;C+&quot;,
+  &quot;value&quot;: 78327,
+  &quot;color&quot;: &quot;#e4a14b&quot;
+},
+{
+  &quot;label&quot;: &quot;C&quot;,
+  &quot;value&quot;: 67706,
+  &quot;color&quot;: &quot;#e98125&quot;
+},
+{
+  &quot;label&quot;: &quot;Objective-C&quot;,
+  &quot;value&quot;: 36344,
+  &quot;color&quot;: &quot;#cb2121&quot;
+},
+{
+  &quot;label&quot;: &quot;Shell&quot;,
+  &quot;value&quot;: 28561,
+  &quot;color&quot;: &quot;#830909&quot;
+},
+{
+  &quot;label&quot;: &quot;Cobol&quot;,
+  &quot;value&quot;: 24131,
+  &quot;color&quot;: &quot;#923e99&quot;
+},
+{
+  &quot;label&quot;: &quot;C#&quot;,
+  &quot;value&quot;: 100,
+  &quot;color&quot;: &quot;#ae83d5&quot;
+},
+{
+  &quot;label&quot;: &quot;Coldfusion&quot;,
+  &quot;value&quot;: 68,
+  &quot;color&quot;: &quot;#bf273e&quot;
+},
+{
+  &quot;label&quot;: &quot;Fortran&quot;,
+  &quot;value&quot;: 218812,
+  &quot;color&quot;: &quot;#ce2aeb&quot;
+},
+{
+  &quot;label&quot;: &quot;Coffeescript&quot;,
+  &quot;value&quot;: 157618,
+  &quot;color&quot;: &quot;#bca44a&quot;
+},
+{
+  &quot;label&quot;: &quot;Node&quot;,
+  &quot;value&quot;: 114384,
+  &quot;color&quot;: &quot;#618d1b&quot;
+},
+{
+  &quot;label&quot;: &quot;Basic&quot;,
+  &quot;value&quot;: 95002,
+  &quot;color&quot;: &quot;#1ee67b&quot;
+},
+{
+  &quot;label&quot;: &quot;Cola&quot;,
+  &quot;value&quot;: 36344,
+  &quot;color&quot;: &quot;#b0ec44&quot;
+},
+{
+  &quot;label&quot;: &quot;Perl&quot;,
+  &quot;value&quot;: 32170,
+  &quot;color&quot;: &quot;#a4a0c9&quot;
+},
+{
+  &quot;label&quot;: &quot;Dart&quot;,
+  &quot;value&quot;: 28561,
+  &quot;color&quot;: &quot;#322849&quot;
+},
+{
+  &quot;label&quot;: &quot;Go&quot;,
+  &quot;value&quot;: 264131,
+  &quot;color&quot;: &quot;#86f71a&quot;
+},
+{
+  &quot;label&quot;: &quot;Groovy&quot;,
+  &quot;value&quot;: 218812,
+  &quot;color&quot;: &quot;#d1c87f&quot;
+},
+{
+  &quot;label&quot;: &quot;Processing&quot;,
+  &quot;value&quot;: 157618,
+  &quot;color&quot;: &quot;#7d9058&quot;
+},
+{
+  &quot;label&quot;: &quot;Smalltalk&quot;,
+  &quot;value&quot;: 114384,
+  &quot;color&quot;: &quot;#44b9b0&quot;
+},
+{
+  &quot;label&quot;: &quot;Scala&quot;,
+  &quot;value&quot;: 95002,
+  &quot;color&quot;: &quot;#7c37c0&quot;
+},
+{
+  &quot;label&quot;: &quot;Visual Basic&quot;,
+  &quot;value&quot;: 78327,
+  &quot;color&quot;: &quot;#cc9fb1&quot;
+},
+{
+  &quot;label&quot;: &quot;Scheme&quot;,
+  &quot;value&quot;: 67706,
+  &quot;color&quot;: &quot;#e65414&quot;
+},
+{
+  &quot;label&quot;: &quot;Rust&quot;,
+  &quot;value&quot;: 36344,
+  &quot;color&quot;: &quot;#8b6834&quot;
+},
+{
+  &quot;label&quot;: &quot;FoxPro&quot;,
+  &quot;value&quot;: 32170,
+  &quot;color&quot;: &quot;#248838&quot;
+}
+]&#39;),
+    data.frame
+  )
+)
+</code></pre>
+
+<pre><code class="r">#now that we have data as a data.frame which a R user should know well
+#show how to specify a data.frame as our data.source
+dPie$addParams(chartspec = list(
+  data = list(
+    sortOrder = &quot;value-desc&quot;,
+    content = data
+  )
+))
+dPie$show(&quot;inline&quot;)
+</code></pre>
+
+<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+
+<script>
+function drawchart22ec3cb656e0(){ 
+  var params = {
+ "dom": "chart22ec3cb656e0",
+"width":    800,
+"height":    400,
+"chartspec": {
+ "header": {
+ "title": {
+ "text": "d3Pie Example Recreated in R with rCharts",
+"fontsize":     20,
+"font": "open sans" 
+},
+"subtitle": {
+ "text": "A full pie chart to show off label collision detection and resolution.",
+"color": "#999999",
+"fontSize":     12,
+"font": "open sans" 
+},
+"titleSubtitlePadding":      9 
+},
+"footer": {
+ "color": "#999999",
+"fontSize":     10,
+"font": "open sans",
+"location": "bottom-left" 
+},
+"size": {
+ "canvasWidth":    590 
+},
+"labels": {
+ "outer": {
+ "pieDistance":     32 
+},
+"inner": {
+ "hideWhenLessThanPercentage":      3 
+},
+"mainLabel": {
+ "fontSize":     11 
+},
+"percentage": {
+ "color": "#ffffff",
+"decimalPlaces":      0 
+},
+"value": {
+ "color": "#adadad",
+"fontSize":     11 
+},
+"lines": {
+ "enabled": true 
+} 
+},
+"effects": {
+ "pullOutSegmentOnClick": {
+ "effect": "linear",
+"speed":    400,
+"size":      8 
+} 
+},
+"misc": {
+ "gradient": {
+ "enabled": true,
+"percentage":    100 
+} 
+},
+"data": {
+ "sortOrder": "value-desc",
+"content": {
+ "label": [ "JavaScript", "Ruby", "Java", "PHP", "Python", "C+", "C", "Objective-C", "Shell", "Cobol", "C#", "Coldfusion", "Fortran", "Coffeescript", "Node", "Basic", "Cola", "Perl", "Dart", "Go", "Groovy", "Processing", "Smalltalk", "Scala", "Visual Basic", "Scheme", "Rust", "FoxPro" ],
+"value": [ 2.6413e+05, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  78327,  67706,  36344,  28561,  24131,    100,     68, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  36344,  32170,  28561, 2.6413e+05, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  78327,  67706,  36344,  32170 ],
+"color": [ "#2484c1", "#0c6197", "#4daa4b", "#90c469", "#daca61", "#e4a14b", "#e98125", "#cb2121", "#830909", "#923e99", "#ae83d5", "#bf273e", "#ce2aeb", "#bca44a", "#618d1b", "#1ee67b", "#b0ec44", "#a4a0c9", "#322849", "#86f71a", "#d1c87f", "#7d9058", "#44b9b0", "#7c37c0", "#cc9fb1", "#e65414", "#8b6834", "#248838" ] 
+} 
+} 
+},
+"id": "chart22ec3cb656e0" 
+};
+  
+  //rCharts defaults to send toJSON as columns
+  //instead of the expected records for d3pie
+  //do the transform the hard way for now
+  function columnsToRecords(data){
+    var tempdata;
+    //avoid lodash for now
+    datakeys = Object.keys(data)
+    tempdata = data[datakeys[1]].map(function(d,i){
+      var tempobj = {}
+      datakeys.forEach(function(key){
+        tempobj[key] = data[key][i]
+      })
+      return tempobj
+    })
+    return tempdata;
+  }
+  
+  params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
+  
+  var pie = new d3pie("#" + params.id, params.chartspec);
+  return pie;
+};
+
+var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+</script>
+
+<pre><code class="r">#now show how d3Pie responds if no color
+#hard to tell but the colors are different
+dPie$params$chartspec$data &lt;- list(
+    sortOrder = &quot;value-desc&quot;,
+    content = data[,-3]
+)
+
+dPie$show(&quot;inline&quot;)
+</code></pre>
+
+<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+
+<script>
+function drawchart22ec3cb656e0(){ 
+  var params = {
+ "dom": "chart22ec3cb656e0",
+"width":    800,
+"height":    400,
+"chartspec": {
+ "header": {
+ "title": {
+ "text": "d3Pie Example Recreated in R with rCharts",
+"fontsize":     20,
+"font": "open sans" 
+},
+"subtitle": {
+ "text": "A full pie chart to show off label collision detection and resolution.",
+"color": "#999999",
+"fontSize":     12,
+"font": "open sans" 
+},
+"titleSubtitlePadding":      9 
+},
+"footer": {
+ "color": "#999999",
+"fontSize":     10,
+"font": "open sans",
+"location": "bottom-left" 
+},
+"size": {
+ "canvasWidth":    590 
+},
+"labels": {
+ "outer": {
+ "pieDistance":     32 
+},
+"inner": {
+ "hideWhenLessThanPercentage":      3 
+},
+"mainLabel": {
+ "fontSize":     11 
+},
+"percentage": {
+ "color": "#ffffff",
+"decimalPlaces":      0 
+},
+"value": {
+ "color": "#adadad",
+"fontSize":     11 
+},
+"lines": {
+ "enabled": true 
+} 
+},
+"effects": {
+ "pullOutSegmentOnClick": {
+ "effect": "linear",
+"speed":    400,
+"size":      8 
+} 
+},
+"misc": {
+ "gradient": {
+ "enabled": true,
+"percentage":    100 
+} 
+},
+"data": {
+ "sortOrder": "value-desc",
+"content": {
+ "label": [ "JavaScript", "Ruby", "Java", "PHP", "Python", "C+", "C", "Objective-C", "Shell", "Cobol", "C#", "Coldfusion", "Fortran", "Coffeescript", "Node", "Basic", "Cola", "Perl", "Dart", "Go", "Groovy", "Processing", "Smalltalk", "Scala", "Visual Basic", "Scheme", "Rust", "FoxPro" ],
+"value": [ 2.6413e+05, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  78327,  67706,  36344,  28561,  24131,    100,     68, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  36344,  32170,  28561, 2.6413e+05, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  78327,  67706,  36344,  32170 ] 
+} 
+} 
+},
+"id": "chart22ec3cb656e0" 
+};
+  
+  //rCharts defaults to send toJSON as columns
+  //instead of the expected records for d3pie
+  //do the transform the hard way for now
+  function columnsToRecords(data){
+    var tempdata;
+    //avoid lodash for now
+    datakeys = Object.keys(data)
+    tempdata = data[datakeys[1]].map(function(d,i){
+      var tempobj = {}
+      datakeys.forEach(function(key){
+        tempobj[key] = data[key][i]
+      })
+      return tempobj
+    })
+    return tempdata;
+  }
+  
+  params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
+  
+  var pie = new d3pie("#" + params.id, params.chartspec);
+  return pie;
+};
+
+var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+</script>
+
+<pre><code class="r">#now change so that the color is calculated in R
+#?topo.colors
+dPie$params$chartspec$data$content &lt;- data.frame(
+    data[order(data$value,decreasing=T),-3],  #data minus the color column
+    color = substr(topo.colors(nrow(data)),0,7) #our new colors using R topo.colors
+)
+dPie$show(&quot;inline&quot;)
+</code></pre>
+
+<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+
+<script>
+function drawchart22ec3cb656e0(){ 
+  var params = {
+ "dom": "chart22ec3cb656e0",
+"width":    800,
+"height":    400,
+"chartspec": {
+ "header": {
+ "title": {
+ "text": "d3Pie Example Recreated in R with rCharts",
+"fontsize":     20,
+"font": "open sans" 
+},
+"subtitle": {
+ "text": "A full pie chart to show off label collision detection and resolution.",
+"color": "#999999",
+"fontSize":     12,
+"font": "open sans" 
+},
+"titleSubtitlePadding":      9 
+},
+"footer": {
+ "color": "#999999",
+"fontSize":     10,
+"font": "open sans",
+"location": "bottom-left" 
+},
+"size": {
+ "canvasWidth":    590 
+},
+"labels": {
+ "outer": {
+ "pieDistance":     32 
+},
+"inner": {
+ "hideWhenLessThanPercentage":      3 
+},
+"mainLabel": {
+ "fontSize":     11 
+},
+"percentage": {
+ "color": "#ffffff",
+"decimalPlaces":      0 
+},
+"value": {
+ "color": "#adadad",
+"fontSize":     11 
+},
+"lines": {
+ "enabled": true 
+} 
+},
+"effects": {
+ "pullOutSegmentOnClick": {
+ "effect": "linear",
+"speed":    400,
+"size":      8 
+} 
+},
+"misc": {
+ "gradient": {
+ "enabled": true,
+"percentage":    100 
+} 
+},
+"data": {
+ "sortOrder": "value-desc",
+"content": {
+ "label": [ "JavaScript", "Go", "Ruby", "Fortran", "Groovy", "Java", "Coffeescript", "Processing", "PHP", "Node", "Smalltalk", "Python", "Basic", "Scala", "C+", "Visual Basic", "C", "Scheme", "Objective-C", "Cola", "Rust", "Perl", "FoxPro", "Shell", "Dart", "Cobol", "C#", "Coldfusion" ],
+"value": [ 2.6413e+05, 2.6413e+05, 2.1881e+05, 2.1881e+05, 2.1881e+05, 1.5762e+05, 1.5762e+05, 1.5762e+05, 1.1438e+05, 1.1438e+05, 1.1438e+05,  95002,  95002,  95002,  78327,  78327,  67706,  67706,  36344,  36344,  36344,  32170,  32170,  28561,  28561,  24131,    100,     68 ],
+"color": [ "#4C00FF", "#2A00FF", "#0800FF", "#0019FF", "#003CFF", "#005DFF", "#0080FF", "#00A2FF", "#00C3FF", "#00E5FF", "#00FF4D", "#00FF26", "#00FF00", "#26FF00", "#4DFF00", "#73FF00", "#99FF00", "#BFFF00", "#E6FF00", "#FFFF00", "#FFF316", "#FFEA2D", "#FFE343", "#FFDE59", "#FFDB70", "#FFDB86", "#FFDC9C", "#FFE0B3" ] 
+} 
+} 
+},
+"id": "chart22ec3cb656e0" 
+};
+  
+  //rCharts defaults to send toJSON as columns
+  //instead of the expected records for d3pie
+  //do the transform the hard way for now
+  function columnsToRecords(data){
+    var tempdata;
+    //avoid lodash for now
+    datakeys = Object.keys(data)
+    tempdata = data[datakeys[1]].map(function(d,i){
+      var tempobj = {}
+      datakeys.forEach(function(key){
+        tempobj[key] = data[key][i]
+      })
+      return tempobj
+    })
+    return tempdata;
+  }
+  
+  params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
+  
+  var pie = new d3pie("#" + params.id, params.chartspec);
+  return pie;
+};
+
+var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+</script>
+
+<pre><code class="r">#sort from d3pie is slightly different so let R sort
+#since values for smalltalk = node = php
+dPie$params$chartspec$data$sortOrder &lt;- NULL
+dPie$show(&quot;inline&quot;)
+</code></pre>
+
+<div id = 'chart22ec3cb656e0' class = 'rChart d3pie'></div>
+
+<script>
+function drawchart22ec3cb656e0(){ 
+  var params = {
+ "dom": "chart22ec3cb656e0",
+"width":    800,
+"height":    400,
+"chartspec": {
+ "header": {
+ "title": {
+ "text": "d3Pie Example Recreated in R with rCharts",
+"fontsize":     20,
+"font": "open sans" 
+},
+"subtitle": {
+ "text": "A full pie chart to show off label collision detection and resolution.",
+"color": "#999999",
+"fontSize":     12,
+"font": "open sans" 
+},
+"titleSubtitlePadding":      9 
+},
+"footer": {
+ "color": "#999999",
+"fontSize":     10,
+"font": "open sans",
+"location": "bottom-left" 
+},
+"size": {
+ "canvasWidth":    590 
+},
+"labels": {
+ "outer": {
+ "pieDistance":     32 
+},
+"inner": {
+ "hideWhenLessThanPercentage":      3 
+},
+"mainLabel": {
+ "fontSize":     11 
+},
+"percentage": {
+ "color": "#ffffff",
+"decimalPlaces":      0 
+},
+"value": {
+ "color": "#adadad",
+"fontSize":     11 
+},
+"lines": {
+ "enabled": true 
+} 
+},
+"effects": {
+ "pullOutSegmentOnClick": {
+ "effect": "linear",
+"speed":    400,
+"size":      8 
+} 
+},
+"misc": {
+ "gradient": {
+ "enabled": true,
+"percentage":    100 
+} 
+},
+"data": {
+ "content": {
+ "label": [ "JavaScript", "Go", "Ruby", "Fortran", "Groovy", "Java", "Coffeescript", "Processing", "PHP", "Node", "Smalltalk", "Python", "Basic", "Scala", "C+", "Visual Basic", "C", "Scheme", "Objective-C", "Cola", "Rust", "Perl", "FoxPro", "Shell", "Dart", "Cobol", "C#", "Coldfusion" ],
+"value": [ 2.6413e+05, 2.6413e+05, 2.1881e+05, 2.1881e+05, 2.1881e+05, 1.5762e+05, 1.5762e+05, 1.5762e+05, 1.1438e+05, 1.1438e+05, 1.1438e+05,  95002,  95002,  95002,  78327,  78327,  67706,  67706,  36344,  36344,  36344,  32170,  32170,  28561,  28561,  24131,    100,     68 ],
+"color": [ "#4C00FF", "#2A00FF", "#0800FF", "#0019FF", "#003CFF", "#005DFF", "#0080FF", "#00A2FF", "#00C3FF", "#00E5FF", "#00FF4D", "#00FF26", "#00FF00", "#26FF00", "#4DFF00", "#73FF00", "#99FF00", "#BFFF00", "#E6FF00", "#FFFF00", "#FFF316", "#FFEA2D", "#FFE343", "#FFDE59", "#FFDB70", "#FFDB86", "#FFDC9C", "#FFE0B3" ] 
+} 
+} 
+},
+"id": "chart22ec3cb656e0" 
+};
+  
+  //rCharts defaults to send toJSON as columns
+  //instead of the expected records for d3pie
+  //do the transform the hard way for now
+  function columnsToRecords(data){
+    var tempdata;
+    //avoid lodash for now
+    datakeys = Object.keys(data)
+    tempdata = data[datakeys[1]].map(function(d,i){
+      var tempobj = {}
+      datakeys.forEach(function(key){
+        tempobj[key] = data[key][i]
+      })
+      return tempobj
+    })
+    return tempdata;
+  }
+  
+  params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
+  
+  var pie = new d3pie("#" + params.id, params.chartspec);
+  return pie;
+};
+
+var chart22ec3cb656e0 = drawchart22ec3cb656e0();
+</script>
+
+      </section>
+      <footer>
+        <p>Maintained by <a href="http://github.com/timelyportfolio">
+          TimelyPortfolio
+        </a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by 
+          <a href="https://github.com/orderedlist">orderedlist</a></small>
+        </p>
+      </footer>    </div>
+    <script src="../libraries/frameworks/minimal/javascripts/scale.fix.js"></script>
+  </body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- Google Prettify -->
+  <script src="http://cdnjs.cloudflare.com/ajax/libs/prettify/188.0.0/prettify.js"></script>
+  <script src='../libraries/highlighters/prettify/js/lang-r.js'></script>
+  <script>
+    var pres = document.getElementsByTagName("pre");
+    for (var i=0; i < pres.length; ++i) {
+      pres[i].className = "prettyprint linenums";
+    }
+    prettyPrint();
+  </script>
+  <!-- End Google Prettify --> 
+  </html>
