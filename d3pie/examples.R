@@ -208,4 +208,7 @@ dPie$params$params = rjson::fromJSON('{
     }
 }'
 )
+
+do.call(rbind,lapply(dPie$params$params$data$content,data.frame))
+to_json(dPie$params$params$data$content,orient="records")
 dPie
