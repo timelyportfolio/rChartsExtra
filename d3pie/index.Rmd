@@ -41,7 +41,7 @@ options(viewer = NULL)
 
 The design and visualization world generally dislikes pie charts.  However, there still exists a real demand for pie charts.  Not that I would ever use a pie chart, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful that it tempts me to violate my self-imposed ban on pie charts.
 
-### Get an rChart to House Our Delicious Pies
+### Get a rChart Shell for Our Delicious Pies
 
 Eventually I would like to build a R `refClass` for [`d3pie`](http://d3pie.org), but for now I wanted to show how we could use [`d3pie`](http://d3pie.org) in R with [`rCharts`](http://rcharts.io).  Most of this should be considered experimental as I work through how best to support the [numerous options and features](http://d3pie.org/#docs) of [`d3pie`](http://d3pie.org).
 

@@ -72,7 +72,7 @@
 
 <p>The design and visualization world generally dislikes pie charts.  However, there still exists a real demand for pie charts.  Not that I would ever use a pie chart, but I was delighted to see the announcement of this very robust d3 pie library <a href="http://d3pie.org"><code>d3pie</code></a>.  It is so beautiful that it tempts me to violate my self-imposed ban on pie charts.</p>
 
-<h3>Get an rChart to House Our Delicious Pies</h3>
+<h3>Get a rChart Shell for Our Delicious Pies</h3>
 
 <p>Eventually I would like to build a R <code>refClass</code> for <a href="http://d3pie.org"><code>d3pie</code></a>, but for now I wanted to show how we could use <a href="http://d3pie.org"><code>d3pie</code></a> in R with <a href="http://rcharts.io"><code>rCharts</code></a>.  Most of this should be considered experimental as I work through how best to support the <a href="http://d3pie.org/#docs">numerous options and features</a> of <a href="http://d3pie.org"><code>d3pie</code></a>.</p>
 
@@ -158,7 +158,7 @@ dPie$addParams(chartspec = rjson::fromJSON(&#39;{
 
 <h3>Violate a Design Principle of rCharts</h3>
 
-<p><strong>Please note that these examples uses a big hairy nested list which violates the author of rCharts Ramnath&#39;s design principles.</strong>  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  Just look at one, and you will probably quickly understand why Ramnath avoids them.</p>
+<p><strong>Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath&#39;s design principles.</strong>  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  Just look at one, and you will probably quickly understand why Ramnath avoids them.</p>
 
 <pre><code class="r">cat(
   paste0(
