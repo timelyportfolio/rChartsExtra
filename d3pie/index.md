@@ -32,7 +32,7 @@ url: {lib: ../libraries}
 
 
 
-The design and visualization world generally dislikes pie charts.  However, there still exists a real demand for pie charts.  Not that I would ever use a pie chart, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful that it tempts me to violate my self-imposed ban on pie charts.
+The design and visualization world loves to belittle pie charts.  However, there still exists a real demand for pie charts.  Me use a pie chart - oh no, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful and brilliantly designed that it tempted me to violate my self-imposed ban on pie charts.
 
 ### Get a rChart Shell for Our Delicious Pies
 
@@ -50,13 +50,106 @@ cat(add_lib_assets(dPie$lib,cdn=T))
 <script type='text/javascript' src=http://d3js.org/d3.v3.min.js></script>
 <script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>
 
-### Fill Our Pie
+### Fill Our Pie | Simple Example
 
-One easy way to fill our pie is to recreate the [d3pie example](http://d3pie.org/#generator-start) and even get the exact JSON from the example with `fromJSON`.  This will most likely not be the way a R user would populate the options and data of a d3pie, but seeing this method might help us better understand the rCharts binding.
+We have our crust, but I think we want more than just crust.  It is probably best to start simple with our filling.  Let's fill our pie of the star counts on Ramnath's most [popular Github repos](https://github.com/ramnathv).
+
+![screenshot_of_stars](./assets/fig/screenshot_github_stars.png)
+
+A `data.frame` will be a good way to represent this data.  `d3pie` expects a `label` and `value`.
 
 
 ```r
-#copied from the d3pie example
+starData <- data.frame(
+  label = c("rCharts","slidify","rMaps"),
+  value = c(484,318,137)
+)
+```
+
+Now with our `starData` in proper format we can build a pie chart.  To keep it simple and understandable, we will just provide a title and data and let `d3pie` works its magic.
+
+
+```r
+dPie$addParams(
+  chartspec = list(
+    header = list(
+      title = list(
+        text = "Star Count of Ramnath Repos"
+      )
+    )
+    ,data = list(
+      content = starData
+    )
+  )
+)
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
+```
+
+
+<div id = 'simpleexample' class = 'rChart d3pie'></div>
+<script>
+function drawsimpleexample(){ 
+  var params = {
+ "dom": "simpleexample",
+"width":    800,
+"height":    400,
+"chartspec": {
+ "header": {
+ "title": {
+ "text": "Star Count of Ramnath Repos" 
+} 
+},
+"data": {
+ "content": {
+ "label": [ "rCharts", "slidify", "rMaps" ],
+"value": [    484,    318,    137 ] 
+} 
+} 
+},
+"id": "simpleexample" 
+};
+  
+  //rCharts defaults to send toJSON as columns
+  //instead of the expected records for d3pie
+  //do the transform the hard way for now
+  function columnsToRecords(data){
+    var tempdata;
+    //avoid lodash for now
+    datakeys = Object.keys(data)
+    tempdata = data[datakeys[1]].map(function(d,i){
+      var tempobj = {}
+      datakeys.forEach(function(key){
+        tempobj[key] = data[key][i]
+      })
+      return tempobj
+    })
+    return tempdata;
+  }
+  
+  params.chartspec.data.content = columnsToRecords(params.chartspec.data.content);
+  
+  var pie = new d3pie("#" + params.dom, params.chartspec);
+  return pie;
+};
+
+var simpleexample = drawsimpleexample();
+</script>
+
+### Violate a Design Principle of rCharts
+
+**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  In a little bit with our more advanced example, I think you will clearly understand why nested listed are not only ugly but also fairly unworkable.
+
+
+### Fill Our Pie | Advanced Example
+
+One complicated way to fill our pie is to recreate the [d3pie example](http://d3pie.org/#generator-start) and even get the exact JSON from the example with `fromJSON`.  This will most likely not be the way a R user would populate the options and data of a d3pie, but seeing this method might help us better understand the rCharts binding.
+
+
+```r
+#clear out our chartspec
+dPie$params$chartspec <- NULL
+#JSON copied from the d3pie example
 dPie$addParams(chartspec = rjson::fromJSON('{  
 "header": {
   "title": {
@@ -120,9 +213,9 @@ dPie$addParams(chartspec = rjson::fromJSON('{
 ))
 ```
 
-### Violate a Design Principle of rCharts
+### Serious Violation of No Nested List Design Principle
 
-**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  Just look at one, and you will probably quickly understand why Ramnath avoids them.
+As discussed above, **please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  One look at this one, and you will probably quickly understand why Ramnath avoids them.
 
 
 ```r
@@ -141,7 +234,7 @@ cat(
 
  dPie$params$chartspec = list 6 (8136 bytes)<br> .  header = list 3<br> . .  title = list 3<br> . . .  text = character 1= Lots of Programming Languages <br> . . .  fontSize = double 1= 24<br> . . .  font = character 1= open sans <br> . .  subtitle = list 4<br> . . .  text = character 1= A full pie chart to show off label colli <br> . . .  color = character 1= #999999 <br> . . .  fontSize = double 1= 12<br> . . .  font = character 1= open sans <br> . .  titleSubtitlePadding = double 1= 9<br> .  footer = list 4<br> . .  color = character 1= #999999 <br> . .  fontSize = double 1= 10<br> . .  font = character 1= open sans <br> . .  location = character 1= bottom-left <br> .  size = list 1<br> . .  canvasWidth = double 1= 590<br> .  labels = list 6<br> . .  outer = list 1<br> . . .  pieDistance = double 1= 32<br> . .  inner = list 1<br> . . .  hideWhenLessThanPercentage = double 1= 3<br> . .  mainLabel = list 1<br> . . .  fontSize = double 1= 11<br> . .  percentage = list 2<br> . . .  color = character 1= #ffffff <br> . . .  decimalPlaces = double 1= 0<br> . .  value = list 2<br> . . .  color = character 1= #adadad <br> . . .  fontSize = double 1= 11<br> . .  lines = list 1<br> . . .  enabled = logical 1= TRUE<br> .  effects = list 1<br> . .  pullOutSegmentOnClick = list 3<br> . . .  effect = character 1= linear <br> . . .  speed = double 1= 400<br> . . .  size = double 1= 8<br> .  misc = list 1<br> . .  gradient = list 2<br> . . .  enabled = logical 1= TRUE<br> . . .  percentage = double 1= 100<br>
 
-### Change the Title
+### Just a List | Change the Title
 
 One of the nice features of d3pie is the ability to provide a title and subtitle in the chart spec.  To highlight this feature and also prove that we are just working with R `lists`, let's change the title.
 
@@ -168,6 +261,15 @@ cat(
 
  dPie$params$chartspec$header$title = list 3 (696 bytes)<br> .  text = character 1= d3Pie Example Recreated in R with rChart <br> .  fontsize = double 1= 20<br> .  font = character 1= open sans <br>
 
+### JSON -> List -> data.frame
+
+We now need to get the data from the example.  I am guessing that this is the best test of your R skills.  The simple explanation of the process is
+
+
+ - get the JSON array of objects `[{},{},...]` as a R list
+ - make each list item a data.frame
+ - then combine all the data.frame rows into one data.frame.
+ 
 
 ```r
 #make the data content list a data.frame and try it out
@@ -325,6 +427,8 @@ data <- do.call(
 )
 ```
 
+Finish our re-creation of the example by supplying our data to our pie.
+
 
 ```r
 #now that we have data as a data.frame which a R user should know well
@@ -347,6 +451,7 @@ function drawexample1(){
  "dom": "example1",
 "width":    800,
 "height":    400,
+"id": "example1",
 "chartspec": {
  "header": {
  "title": {
@@ -414,8 +519,7 @@ function drawexample1(){
 "color": [ "#2484c1", "#0c6197", "#4daa4b", "#90c469", "#daca61", "#e4a14b", "#e98125", "#cb2121", "#830909", "#923e99", "#ae83d5", "#bf273e", "#ce2aeb", "#bca44a", "#618d1b", "#1ee67b", "#b0ec44", "#a4a0c9", "#322849", "#86f71a", "#d1c87f", "#7d9058", "#44b9b0", "#7c37c0", "#cc9fb1", "#e65414", "#8b6834", "#248838" ] 
 } 
 } 
-},
-"id": "example1" 
+} 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -444,13 +548,17 @@ function drawexample1(){
 var example1 = drawexample1();
 </script>
 
+### Great Defaults of d3Pie
+
+I want to stress once again how powerful and well-designed `d3pie` is.  It offers great defaults, solid feautures and behaviors, and easy customization.  Let's delete the `color` from our data to see the standard set of `d3pie` colors.
+
 
 ```r
 #now show how d3Pie responds if no color
 #hard to tell but the colors are different
 dPie$params$chartspec$data <- list(
     sortOrder = "value-desc",
-    content = data[,-3]
+    content = data[,-3]  #-3 means exclude the color column
 )
 
 dPie$params$dom = knitr:::opts_current$get("label")
@@ -465,6 +573,7 @@ function drawexample2(){
  "dom": "example2",
 "width":    800,
 "height":    400,
+"id": "example2",
 "chartspec": {
  "header": {
  "title": {
@@ -531,8 +640,7 @@ function drawexample2(){
 "value": [ 2.6413e+05, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  78327,  67706,  36344,  28561,  24131,    100,     68, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  36344,  32170,  28561, 2.6413e+05, 2.1881e+05, 1.5762e+05, 1.1438e+05,  95002,  78327,  67706,  36344,  32170 ] 
 } 
 } 
-},
-"id": "example2" 
+} 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -561,13 +669,17 @@ function drawexample2(){
 var example2 = drawexample2();
 </script>
 
+### Colors from R
+
+`rCharts` is designed to cater to the R user and assumes no user knowledge of Javascript.  R has lots of color palettes.  We'll use R's `topo.json` palette to configure our pie chart.
+
 
 ```r
 #now change so that the color is calculated in R
 #?topo.colors
 dPie$params$chartspec$data$content <- data.frame(
-    data[order(data$value,decreasing=T),-3],  #data minus the color column
-    color = substr(topo.colors(nrow(data)),0,7) #our new colors using R topo.colors
+    data[order(data$value,decreasing=T),-3],  #data w/o the color column
+    color = substr(topo.colors(nrow(data)),0,7) #R topo.colors
 )
 dPie$params$dom = knitr:::opts_current$get("label")
 dPie$print()
@@ -581,6 +693,7 @@ function drawexample3(){
  "dom": "example3",
 "width":    800,
 "height":    400,
+"id": "example3",
 "chartspec": {
  "header": {
  "title": {
@@ -648,8 +761,7 @@ function drawexample3(){
 "color": [ "#4C00FF", "#2A00FF", "#0800FF", "#0019FF", "#003CFF", "#005DFF", "#0080FF", "#00A2FF", "#00C3FF", "#00E5FF", "#00FF4D", "#00FF26", "#00FF00", "#26FF00", "#4DFF00", "#73FF00", "#99FF00", "#BFFF00", "#E6FF00", "#FFFF00", "#FFF316", "#FFEA2D", "#FFE343", "#FFDE59", "#FFDB70", "#FFDB86", "#FFDC9C", "#FFE0B3" ] 
 } 
 } 
-},
-"id": "example3" 
+} 
 };
   
   //rCharts defaults to send toJSON as columns
@@ -678,6 +790,10 @@ function drawexample3(){
 var example3 = drawexample3();
 </script>
 
+### R Sort
+
+You might notice that the colors don't look right.  The reason why is that Scala, Smalltalk, and PHP have the same values.  Like with the colors, we can let R do the sorting for us.
+
 
 ```r
 #sort from d3pie is slightly different so let R sort
@@ -695,6 +811,7 @@ function drawexample4(){
  "dom": "example4",
 "width":    800,
 "height":    400,
+"id": "example4",
 "chartspec": {
  "header": {
  "title": {
@@ -761,8 +878,7 @@ function drawexample4(){
 "color": [ "#4C00FF", "#2A00FF", "#0800FF", "#0019FF", "#003CFF", "#005DFF", "#0080FF", "#00A2FF", "#00C3FF", "#00E5FF", "#00FF4D", "#00FF26", "#00FF00", "#26FF00", "#4DFF00", "#73FF00", "#99FF00", "#BFFF00", "#E6FF00", "#FFFF00", "#FFF316", "#FFEA2D", "#FFE343", "#FFDE59", "#FFDB70", "#FFDB86", "#FFDC9C", "#FFE0B3" ] 
 } 
 } 
-},
-"id": "example4" 
+} 
 };
   
   //rCharts defaults to send toJSON as columns

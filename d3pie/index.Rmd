@@ -39,7 +39,7 @@ require(rCharts)
 options(viewer = NULL) 
 ```
 
-The design and visualization world generally dislikes pie charts.  However, there still exists a real demand for pie charts.  Not that I would ever use a pie chart, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful that it tempts me to violate my self-imposed ban on pie charts.
+The design and visualization world loves to belittle pie charts.  However, there still exists a real demand for pie charts.  Me use a pie chart - oh no, but I was delighted to see the announcement of this very robust d3 pie library [`d3pie`](http://d3pie.org).  It is so beautiful and brilliantly designed that it tempted me to violate my self-imposed ban on pie charts.
 
 ### Get a rChart Shell for Our Delicious Pies
 
@@ -52,12 +52,53 @@ dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
 cat(add_lib_assets(dPie$lib,cdn=T))
 ```
 
-### Fill Our Pie
+### Fill Our Pie | Simple Example
 
-One easy way to fill our pie is to recreate the [d3pie example](http://d3pie.org/#generator-start) and even get the exact JSON from the example with `fromJSON`.  This will most likely not be the way a R user would populate the options and data of a d3pie, but seeing this method might help us better understand the rCharts binding.
+We have our crust, but I think we want more than just crust.  It is probably best to start simple with our filling.  Let's fill our pie of the star counts on Ramnath's most [popular Github repos](https://github.com/ramnathv).
+
+![screenshot_of_stars](./assets/fig/screenshot_github_stars.png)
+
+A `data.frame` will be a good way to represent this data.  `d3pie` expects a `label` and `value`.
 
 ```{r}
-#copied from the d3pie example
+starData <- data.frame(
+  label = c("rCharts","slidify","rMaps"),
+  value = c(484,318,137)
+)
+```
+
+Now with our `starData` in proper format we can build a pie chart.  To keep it simple and understandable, we will just provide a title and data and let `d3pie` works its magic.
+
+```{r "simpleexample"}
+dPie$addParams(
+  chartspec = list(
+    header = list(
+      title = list(
+        text = "Star Count of Ramnath Repos"
+      )
+    )
+    ,data = list(
+      content = starData
+    )
+  )
+)
+dPie$params$dom = knitr:::opts_current$get("label")
+dPie$print()
+```
+
+### Violate a Design Principle of rCharts
+
+**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  In a little bit with our more advanced example, I think you will clearly understand why nested listed are not only ugly but also fairly unworkable.
+
+
+### Fill Our Pie | Advanced Example
+
+One complicated way to fill our pie is to recreate the [d3pie example](http://d3pie.org/#generator-start) and even get the exact JSON from the example with `fromJSON`.  This will most likely not be the way a R user would populate the options and data of a d3pie, but seeing this method might help us better understand the rCharts binding.
+
+```{r}
+#clear out our chartspec
+dPie$params$chartspec <- NULL
+#JSON copied from the d3pie example
 dPie$addParams(chartspec = rjson::fromJSON('{  
 "header": {
   "title": {
@@ -121,9 +162,9 @@ dPie$addParams(chartspec = rjson::fromJSON('{
 ))
 ```
 
-### Violate a Design Principle of rCharts
+### Serious Violation of No Nested List Design Principle
 
-**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  Just look at one, and you will probably quickly understand why Ramnath avoids them.
+As discussed above, **please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  One look at this one, and you will probably quickly understand why Ramnath avoids them.
 
 ```{r}
 cat(
@@ -139,7 +180,7 @@ cat(
 )
 ```
 
-### Change the Title
+### Just a List | Change the Title
 
 One of the nice features of d3pie is the ability to provide a title and subtitle in the chart spec.  To highlight this feature and also prove that we are just working with R `lists`, let's change the title.
 
@@ -163,6 +204,15 @@ cat(
 )
 ```
 
+### JSON -> List -> data.frame
+
+We now need to get the data from the example.  I am guessing that this is the best test of your R skills.  The simple explanation of the process is
+
+
+ - get the JSON array of objects `[{},{},...]` as a R list
+ - make each list item a data.frame
+ - then combine all the data.frame rows into one data.frame.
+ 
 ```{r}
 #make the data content list a data.frame and try it out
 #data.frame will be the most likely data source
@@ -319,6 +369,8 @@ data <- do.call(
 )
 ```
 
+Finish our re-creation of the example by supplying our data to our pie.
+
 ```{r "example1"}
 #now that we have data as a data.frame which a R user should know well
 #show how to specify a data.frame as our data.source
@@ -332,28 +384,40 @@ dPie$params$dom = knitr:::opts_current$get("label")
 dPie$print()
 ```
 
+### Great Defaults of d3Pie
+
+I want to stress once again how powerful and well-designed `d3pie` is.  It offers great defaults, solid feautures and behaviors, and easy customization.  Let's delete the `color` from our data to see the standard set of `d3pie` colors.
+
 ```{r "example2"}
 #now show how d3Pie responds if no color
 #hard to tell but the colors are different
 dPie$params$chartspec$data <- list(
     sortOrder = "value-desc",
-    content = data[,-3]
+    content = data[,-3]  #-3 means exclude the color column
 )
 
 dPie$params$dom = knitr:::opts_current$get("label")
 dPie$print()
 ```
+
+### Colors from R
+
+`rCharts` is designed to cater to the R user and assumes no user knowledge of Javascript.  R has lots of color palettes.  We'll use R's `topo.json` palette to configure our pie chart.
 
 ```{r "example3"}
 #now change so that the color is calculated in R
 #?topo.colors
 dPie$params$chartspec$data$content <- data.frame(
-    data[order(data$value,decreasing=T),-3],  #data minus the color column
-    color = substr(topo.colors(nrow(data)),0,7) #our new colors using R topo.colors
+    data[order(data$value,decreasing=T),-3],  #data w/o the color column
+    color = substr(topo.colors(nrow(data)),0,7) #R topo.colors
 )
 dPie$params$dom = knitr:::opts_current$get("label")
 dPie$print()
 ```
+
+### R Sort
+
+You might notice that the colors don't look right.  The reason why is that Scala, Smalltalk, and PHP have the same values.  Like with the colors, we can let R do the sorting for us.
 
 ```{r "example4"}
 #sort from d3pie is slightly different so let R sort
