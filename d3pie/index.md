@@ -46,7 +46,6 @@ dPie$setLib("http://timelyportfolio.github.io/rChartsExtra/d3pie")
 cat(add_lib_assets(dPie$lib,cdn=T))
 ```
 
-<script type='text/javascript' src=http://code.jquery.com/jquery-2.1.1.min.js></script>
 <script type='text/javascript' src=http://d3js.org/d3.v3.min.js></script>
 <script type='text/javascript' src=http://timelyportfolio.github.io/rChartsExtra/d3pie/js/d3pie.js></script>
 
@@ -792,7 +791,7 @@ var example3 = drawexample3();
 
 ### R Sort
 
-You might notice that the colors don't look right.  The reason why is that Scala, Smalltalk, and PHP have the same values.  Like with the colors, we can let R do the sorting for us.
+You might notice that the colors don't look right.  The reason why is that Scala, Smalltalk, and PHP have the same values.  Just like we did with the colors, we can let R do the sorting for us.
 
 
 ```r

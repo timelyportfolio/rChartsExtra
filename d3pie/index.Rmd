@@ -417,7 +417,7 @@ dPie$print()
 
 ### R Sort
 
-You might notice that the colors don't look right.  The reason why is that Scala, Smalltalk, and PHP have the same values.  Like with the colors, we can let R do the sorting for us.
+You might notice that the colors don't look right.  The reason why is that Scala, Smalltalk, and PHP have the same values.  Just like we did with the colors, we can let R do the sorting for us.
 
 ```{r "example4"}
 #sort from d3pie is slightly different so let R sort
