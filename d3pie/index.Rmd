@@ -88,7 +88,7 @@ dPie$print()
 
 ### Violate a Design Principle of rCharts
 
-**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  In a little bit with our more advanced example, I think you will clearly understand why nested listed are not only ugly but also fairly unworkable.
+**Please note that these examples use a big hairy nested list which violates the author of rCharts Ramnath's design principles.**  However, this requires no extra code or refClasses, so these ugly nested lists are a nice way to experiment with d3pie.  In a little bit with our more advanced example, I think you will clearly understand why nested lists are not only ugly but also fairly unworkable.
 
 
 ### Fill Our Pie | Advanced Example
